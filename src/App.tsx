@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable max-len */
 import React, { useEffect, useMemo, useState } from 'react';
 import 'bulma/css/bulma.css';
@@ -131,7 +132,11 @@ export const App: React.FC = () => {
               {loadingTodos ? (
                 <Loader />
               ) : (
-                <TodoList todos={visibleTodos} onShow={handleShow} />
+                <TodoList
+                  todos={visibleTodos}
+                  selectedTodo={selectedTodo}
+                  onSelect={handleShow}
+                />
               )}
             </div>
           </div>

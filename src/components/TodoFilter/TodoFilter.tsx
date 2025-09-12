@@ -2,18 +2,18 @@ import React from 'react';
 
 type Props = {
   status: 'all' | 'active' | 'completed';
-  querty: string;
+  query: string;
   onStatusChange: (value: 'all' | 'active' | 'completed') => void;
-  onQuertyChange: (value: string) => void;
-  onClearQuerty: () => void;
+  onQueryChange: (value: string) => void;
+  onClearQuery: () => void;
 };
 
 export const TodoFilter: React.FC<Props> = ({
   status,
-  querty,
+  query,
   onStatusChange,
-  onQuertyChange,
-  onClearQuerty,
+  onQueryChange,
+  onClearQuery,
 }) => {
   return (
     <form
@@ -44,20 +44,20 @@ export const TodoFilter: React.FC<Props> = ({
           type="text"
           className="input"
           placeholder="Search..."
-          value={querty}
-          onChange={event => onQuertyChange(event.target.value)}
+          value={query}
+          onChange={event => onQueryChange(event.target.value)}
         />
         <span className="icon is-left" style={{ pointerEvents: 'all' }}>
           <i className="fas fa-magnifying-glass" />
         </span>
 
         <span className="icon is-right" style={{ pointerEvents: 'all' }}>
-          {querty ? (
+          {query ? (
             <button
               data-cy="clearSearchButton"
               type="button"
               className="delete"
-              onClick={onClearQuerty}
+              onClick={onClearQuery}
             />
           ) : (
             <button

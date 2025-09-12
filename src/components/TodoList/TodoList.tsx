@@ -3,10 +3,15 @@ import { Todo } from '../../types/Todo';
 
 type Props = {
   todos: Todo[];
-  onShow: (id: number) => void;
+  selectedTodo: Todo | null;
+  onSelect: (id: number) => void;
 };
 
-export const TodoList: React.FC<Props> = ({ todos, onShow }) => {
+export const TodoList: React.FC<Props> = ({
+  todos,
+  selectedTodo,
+  onSelect,
+}) => {
   return (
     <table className="table is-narrow is-fullwidth">
       <thead>
@@ -18,49 +23,59 @@ export const TodoList: React.FC<Props> = ({ todos, onShow }) => {
             </span>
           </th>
           <th>Title</th>
-          <th> </th>
+          <th />
         </tr>
       </thead>
 
       <tbody>
-        {todos.map(todo => (
-          <tr
-            key={todo.id}
-            data-cy="todo"
-            data-id={todo.id}
-            className={todo.completed ? 'has-background-info-light' : ''}
-          >
-            <td className="is-vcentered">{todo.id}</td>
-            <td className="is-vcentered">
-              {todo.completed && (
-                <span className="icon" data-cy="iconCompleted">
-                  <i className="fas fa-check" />
-                </span>
-              )}
-            </td>
-            <td className="is-vcentered is-expanded">
-              <p
-                className={
-                  todo.completed ? 'has-text-success' : 'has-text-danger'
-                }
-              >
-                {todo.title}
-              </p>
-            </td>
-            <td className="has-text-right is-vcentered">
-              <button
-                data-cy="selectButton"
-                className="button"
-                type="button"
-                onClick={() => onShow(todo.id)}
-              >
-                <span className="icon">
-                  <i className="far fa-eye" />
-                </span>
-              </button>
-            </td>
-          </tr>
-        ))}
+        {todos.map(todo => {
+          const isSelected = selectedTodo?.id === todo.id;
+
+          return (
+            <tr
+              key={todo.id}
+              data-cy="todo"
+              className={isSelected ? 'has-background-info-light' : ''}
+            >
+              <td className="is-vcentered">{todo.id}</td>
+
+              <td className="is-vcentered">
+                {todo.completed && (
+                  <span className="icon" data-cy="iconCompleted">
+                    <i className="fas fa-check" />
+                  </span>
+                )}
+              </td>
+
+              <td className="is-vcentered is-expanded">
+                <p
+                  className={
+                    todo.completed ? 'has-text-success' : 'has-text-danger'
+                  }
+                >
+                  {todo.title}
+                </p>
+              </td>
+
+              <td className="has-text-right is-vcentered">
+                <button
+                  data-cy="selectButton"
+                  className="button"
+                  type="button"
+                  onClick={() => onSelect(todo.id)}
+                >
+                  <span className="icon">
+                    {isSelected ? (
+                      <i className="far fa-eye-slash" />
+                    ) : (
+                      <i className="far fa-eye" />
+                    )}
+                  </span>
+                </button>
+              </td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );
