@@ -92,16 +92,26 @@ export const App: React.FC = () => {
     setModalVisible(true);
     setModalLoading(true);
 
+    let isActive = true;
+
     try {
       const user = await getUser(todo.userId);
 
-      setSelectedUser(user);
+      if (isActive) {
+        setSelectedUser(user);
+      }
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
     } finally {
-      setModalLoading(false);
+      if (isActive) {
+        setModalLoading(false);
+      }
     }
+
+    return () => {
+      isActive = false;
+    };
   };
 
   const handleCloseModal = () => {
